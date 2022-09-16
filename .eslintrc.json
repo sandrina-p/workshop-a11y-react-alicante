@@ -1,3 +1,7 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": ["next/core-web-vitals", "prettier"],
+  "plugins": ["sort-imports-es6-autofix"],
+  "rules": {
+    "no-unused-vars": "error"
+  }
 }
