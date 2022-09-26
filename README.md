@@ -41,8 +41,10 @@ cd workshop-a11y-react-alicante
 npm install
 
 # Run the project
-npm start
+npm run dev
 ```
+
+You should see the project opening in a new localhost tab.
 
 ---
 
