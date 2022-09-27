@@ -1,3 +1,5 @@
+import Link from "next/link";
+import React from "react";
 import { css } from "styled-components";
 import styled, { keyframes } from "styled-components";
 import { system } from "styled-system";
@@ -9,13 +11,15 @@ import {
   grid,
   layout,
   position,
+  space,
 } from "styled-system";
 
 import { linkCSS } from "./Button";
+import { useContextExercise } from "./pageLayouts/LayoutExercise";
 
 // ============
 
-const composedStyles = compose(color, flexbox, grid, layout, position);
+const composedStyles = compose(color, flexbox, grid, layout, position, space);
 
 export const Box = styled.div.withConfig({
   shouldForwardProp: (prop, defaultValidatorFn) =>
@@ -27,14 +31,14 @@ export const Box = styled.div.withConfig({
 
 const StackStyled = styled(Box)(system({ gap: { property: "gap" } }));
 
-export const Stack = ({ children, dir, ...props }) => (
-  <StackStyled flexDirection={dir} {...props}>
+export const Stack = ({ children, direction, ...props }) => (
+  <StackStyled flexDirection={direction} {...props}>
     {children}
   </StackStyled>
 );
 
 Stack.defaultProps = {
-  dir: "row",
+  direction: "row",
   gap: "16px",
   display: "flex",
 };
@@ -60,17 +64,19 @@ export const Hero = styled.header`
 
 export const PageShell = styled.div`
   max-width: 56rem;
+  width: 100vw;
   min-height: 100vh;
+  padding: 3rem 12px;
   margin: auto;
-  padding: 3rem 1rem;
-  border-right: 1px dashed #aaa;
-  border-left: 1px dashed #aaa;
 
-  h1 {
-    font-size: 3.2rem;
-    line-height: 1.2;
-    text-align: center;
-    margin: auto;
+  &[data-variant="exercise"] {
+    border-left: 1px dashed var(--theme-text_1);
+    border-right: 1px dashed var(--theme-text_1);
+  }
+  &[data-variant="solution"] {
+    /* border-left: 1px dashed var(--theme-text_0);
+    border-right: 1px dashed var(--theme-text_0); */
+    outline: 100vw solid var(--theme-text_0);
   }
 `;
 
@@ -105,6 +111,75 @@ export const TitleDivider = styled.h2`
 
 ////////////////
 
+const CardLinkWrapper = styled(Box).attrs({ as: "article" })`
+  position: relative;
+  width: 100%;
+  max-width: var(--theme-width);
+  margin: 2rem auto 0;
+  padding: 24px 16px;
+  border-radius: 4px;
+  background-color: var(--theme-bg_1);
+  box-shadow: 2px 2px var(--theme-primary_smooth);
+  transition: box-shadow 150ms;
+
+  &:hover {
+    box-shadow: 2px 2px var(--theme-primary);
+    color: var(--theme-primary);
+  }
+
+  &:focus-within {
+    box-shadow: 0 0 0 4px var(--theme-primary);
+  }
+`;
+
+const CardLinkTitle = styled.a`
+  font-size: 1.8rem;
+  font-weight: 500;
+  display: inline-block;
+  color: inherit;
+  text-decoration: none;
+
+  &:focus {
+    outline: none;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+`;
+
+const CardLinkHeading = styled.h2`
+  margin: 0;
+`;
+
+const CardLinkDescription = styled.p`
+  color: var(--theme-text_1);
+`;
+
+export function CardLink({ title, href, children }) {
+  const refLink = React.useRef();
+
+  return (
+    <CardLinkWrapper>
+      <CardLinkHeading>
+        <Link href={href} passHref>
+          <CardLinkTitle className="g-cardTitle" ref={refLink}>
+            {title}
+          </CardLinkTitle>
+        </Link>
+      </CardLinkHeading>
+      <CardLinkDescription>{children}</CardLinkDescription>
+    </CardLinkWrapper>
+  );
+}
+
+////////////////
+
 const CaseBox = styled(Box).attrs({ as: "article" })`
   --pb: ${({ $hasRefs }) => ($hasRefs ? "0" : "32px")};
   position: relative;
@@ -117,13 +192,23 @@ const CaseBox = styled(Box).attrs({ as: "article" })`
   box-shadow: 2px 2px var(--theme-primary_smooth);
 `;
 
-const CaseTitle = styled.h3`
+const CaseTitle = styled.h2`
   position: absolute;
   top: -30px;
   left: 0;
   font-size: 1.6rem;
   font-weight: 600;
   margin: 0;
+`;
+
+const CaseVariant = styled.span`
+  position: absolute;
+  top: -24px;
+  right: 0;
+  font-size: 1.4rem;
+  font-weight: 400;
+  margin: 0;
+  color: var(--theme-text_1);
 `;
 
 const Refs = styled.footer`
@@ -134,9 +219,12 @@ const Refs = styled.footer`
 `;
 
 export function Case({ title, refs, children }) {
+  const { variant } = useContextExercise();
+
   return (
     <CaseBox $hasRefs={!!refs}>
-      <CaseTitle className="g-cardTitle">{title}</CaseTitle>
+      <CaseVariant>{variant}</CaseVariant>
+      {title && <CaseTitle className="g-cardTitle">{title}</CaseTitle>}
       {children}
 
       {refs && (
@@ -155,6 +243,38 @@ export function Case({ title, refs, children }) {
     </CaseBox>
   );
 }
+
+/////////////////
+export const LinkExternal = styled.a`
+  text-decoration: none;
+  border-radius: 4px;
+  background-color: var(--theme-bg_1);
+  box-shadow: 2px 2px var(--theme-primary_smooth);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: var(--theme-text_0);
+  gap: 10px;
+  padding: 10px;
+  width: 16rem;
+
+  img {
+    max-width: 50px;
+    max-height: 50px;
+  }
+
+  &:hover {
+    box-shadow: 2px 2px var(--theme-primary);
+    color: var(--theme-primary);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px var(--theme-primary);
+  }
+`;
 
 /////////////////
 
@@ -210,6 +330,18 @@ export function IconHeart() {
         d="M47 78.7248L11.0996 43.7946C11.0984 43.7935 11.0972 43.7923 11.096 43.7911C8.72198 41.4641 6.83589 38.687 5.54807 35.6223C4.25961 32.556 3.59595 29.2635 3.59595 25.9375C3.59595 22.6115 4.25961 19.3189 5.54807 16.2527C6.83654 13.1864 8.72389 10.408 11.0996 8.08034L11.1105 8.06963L11.1214 8.05881C15.1152 4.06493 20.877 2.99905 28.2724 4.84791L28.3887 4.87697L28.5068 4.89667C33.7522 5.7709 40.2105 9.39062 44.8787 14.0588L47 16.1801L49.1213 14.0588C53.7895 9.39062 60.2478 5.7709 65.4932 4.89667L65.6114 4.87697L65.7276 4.84791C73.1231 2.99905 78.8848 4.06493 82.8787 8.05881L82.8895 8.06963L82.9005 8.08034C85.2762 10.408 87.1635 13.1864 88.452 16.2527C89.7404 19.319 90.4041 22.6115 90.4041 25.9375C90.4041 29.2635 89.7404 32.556 88.452 35.6223C87.1641 38.6871 85.2779 41.4643 82.9038 43.7914C82.9027 43.7924 82.9016 43.7935 82.9005 43.7946L47 78.7248Z"
         strokeWidth="10"
       />
+    </svg>
+  );
+}
+
+export function IconArrowTop() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 448 512"
+      aria-hidden="true"
+    >
+      <path d="M240.971 130.524l194.343 194.343c9.373 9.373 9.373 24.569 0 33.941l-22.667 22.667c-9.357 9.357-24.522 9.375-33.901.04L224 227.495 69.255 381.516c-9.379 9.335-24.544 9.317-33.901-.04l-22.667-22.667c-9.373-9.373-9.373-24.569 0-33.941L207.03 130.525c9.372-9.373 24.568-9.373 33.941-.001z"></path>
     </svg>
   );
 }
@@ -331,4 +463,20 @@ export const Banner = styled.article`
     css`
       border-color: var(--theme-error);
     `}
+`;
+
+//////////////
+
+/* Screen Reader Only
+  https://kittygiraudel.com/2021/02/17/hiding-content-responsibly/
+*/
+export const SROnly = styled.span`
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 `;

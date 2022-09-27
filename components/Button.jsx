@@ -1,7 +1,8 @@
+import LinkNext from "next/link";
 import styled, { css } from "styled-components";
 
 /*
-🍀 [1] outline transparent ensures focus is visible in Windows
+💡 [1] outline transparent ensures focus is visible in Windows
 High Contrast as the box-shadow is ignored by default.
 https://blogs.windows.com/msedgedev/2020/09/17/styling-for-windows-high-contrast-with-new-standards-for-forced-colors/
 */
@@ -30,7 +31,7 @@ export const buttonCSS = css`
 
   &:focus {
     outline: 1px solid transparent; /* [1] */
-    box-shadow: var(--theme-focus-shadow);
+    box-shadow: var(--theme-focus_shadow);
   }
 
   /* remove outline in browsers that support :focus-visible */
@@ -41,7 +42,7 @@ export const buttonCSS = css`
 
   &:focus-visible {
     outline: 1px solid transparent; /* [1] */
-    box-shadow: var(--theme-focus-shadow);
+    box-shadow: var(--theme-focus_shadow);
   }
 `;
 
@@ -79,7 +80,7 @@ export const buttonToggleCSS = css`
 
   &:focus-visible {
     outline: none;
-    box-shadow: var(--theme-focus-shadow);
+    box-shadow: var(--theme-focus_shadow);
   }
 
   svg {
@@ -93,7 +94,8 @@ export const buttonToggleCSS = css`
     }
   }
 
-  &[data-active="true"] {
+  &[data-active="true"],
+  &[aria-pressed="true"] {
     color: #c70000;
     animation: grow 250ms ease-out;
 
@@ -107,6 +109,7 @@ export const linkCSS = css`
   all: initial;
   --linkClr: var(--theme-primary);
   position: relative;
+  display: inline-block;
   text-decoration: underline;
   text-decoration-color: var(--linkClr);
   color: inherit;
@@ -115,14 +118,34 @@ export const linkCSS = css`
   font-size: inherit;
   cursor: pointer;
 
-  &:hover,
-  &:focus {
-    color: var(--linkClr);
+  &:hover::before {
+    transform: scale(1, 1);
   }
 
-  &:focus {
-    outline: 1px solid transparent; /* [1] */
-    box-shadow: var(--theme-focus-shadow);
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: 1px;
+    left: -2px;
+    width: calc(100% + 4px);
+    height: 1.2em;
+    background-color: var(--linkClr);
+    border-radius: 3px;
+    opacity: 0.2;
+    transform: scale(1, 0.2);
+    transform-origin: 0 97%;
+    z-index: -1;
+    transition: transform 175ms ease-out;
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  &:focus-visible {
+    border-radius: 4px;
+    box-shadow: var(--theme-focus_shadow);
+    outline: var(--theme-focus_outline);
   }
 
   &[target="_blank"] {
@@ -133,3 +156,15 @@ export const linkCSS = css`
 export const Button = styled.button`
   ${buttonCSS}
 `;
+
+const Anchor = styled.a`
+  ${linkCSS}
+`;
+
+export function Link({ href, children, ...props }) {
+  return (
+    <LinkNext href={href} passHref>
+      <Anchor {...props}>{children}</Anchor>
+    </LinkNext>
+  );
+}
