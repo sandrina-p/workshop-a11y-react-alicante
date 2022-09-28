@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
+import { linkCSS } from "../components/Button";
 import {
   Case,
   IconArrowTop,
@@ -12,7 +13,11 @@ import {
 } from "../components/Layout";
 import { Tooltip, TooltipBox, TooltipItself } from "../components/Tooltip";
 import ImgMonstera from "../public/imgs/monstera.png";
-import { getSingOrPlural, usePrefersReducedMotion } from "../utils";
+import {
+  getSingOrPlural,
+  usePrefersReducedMotion,
+  usePrevious,
+} from "../utils";
 import * as Styles from "./5_final.styled";
 
 const CART_COUNT_LIMIT = 5;
@@ -61,6 +66,9 @@ export default function Solution() {
   const refTitle = React.useRef();
 
   const [cartCount, setCartCount] = React.useState(0);
+  const prevCartCount = usePrevious(cartCount);
+  const hasCartChanged =
+    prevCartCount !== undefined && prevCartCount !== cartCount;
   const isCartFull = cartCount >= CART_COUNT_LIMIT;
 
   function handleAddToCartClick(e) {
@@ -84,6 +92,8 @@ export default function Solution() {
       preventScroll: true,
     });
   }
+
+  console.log("hasCartChanged", hasCartChanged);
 
   return (
     <Case>
@@ -110,8 +120,9 @@ export default function Solution() {
                 "plants"
               )} in cart.`}
 
-              {/* We use a literal template `` to ensure React renders everything as single Node, so that the SR also reads it with pauses
-              The <span> below wouldn't work. The SR would say "3 [pause] plants [pause] in cart.". */}
+              {/* 💡 We use a literal template `` to ensure React renders everything as single Node, 
+                so that the SR also reads it with pauses. For instance, the <span> below wouldn't work.
+                The SR would say "2 [pause] plants [pause] in cart.". */}
               {/* <span>
                 {cartCount} {getSingOrPlural(cartCount, "plant", "plants")} in
                 cart.
@@ -139,11 +150,11 @@ export default function Solution() {
               depending on how we structure the price: */}
                 <p css={Styles.priceOriginal}>
                   {/* 💡 Announced: "Old price column, dolar four zero, point zero zero  */}
-                  <span css={Styles.srOnly}>Old price:</span> $40.00
+                  <SROnly>Old price:</SROnly> $40.00
                 </p>
                 <p css={Styles.priceFinal}>
                   {/* 💡 Announced: "New price: thirty dolars and zero cents" */}
-                  <span css={Styles.srOnly}>New price: $30.00</span>
+                  <SROnly>New price: $30.00</SROnly>
                   <span aria-hidden="true">$30.00</span>
                 </p>
                 {/* 💡 Insight: When formating sentences with signs
@@ -171,6 +182,15 @@ export default function Solution() {
                   )}
                 </TooltipBox>
               </Tooltip>
+
+              {isCartFull && (
+                <button
+                  onClick={() => setCartCount((c) => c - 2)}
+                  css={linkCSS}
+                >
+                  Remove 2 plants
+                </button>
+              )}
             </Stack>
 
             <div css={[Styles.media]}>

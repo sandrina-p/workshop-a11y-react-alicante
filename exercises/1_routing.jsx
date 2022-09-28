@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { css } from "styled-components";
 
 import { buttonCSS, linkCSS } from "../components/Button";
-import { Case, Stack } from "../components/Layout";
+import { Case, SROnly, Stack } from "../components/Layout";
 import { useContextExercise } from "../components/pageLayouts/LayoutExercise";
 import imgCatRest from "../public/imgs/cat_rest.jpg";
 import imgCatSearching from "../public/imgs/cat_searching.jpg";
@@ -117,19 +117,16 @@ function Solution() {
       <Case title="Go back button" refs={refs.btnAreLinks}>
         <button
           onClick={() => {
-            // Routing with a <Link /> is not possible:
-            // https://stackoverflow.com/questions/72676015/react-router-go-back-using-link
             // 💡 Verify if previous page exists before using router.back
             const hasPreviousPage = window.history.length > 1;
 
             if (hasPreviousPage) {
               router.back();
             } else {
-              router.push("/"); // fallback to homepage
+              // fallback to a meaningful route.
+              router.push("/");
             }
-            {
-              /* P.S. You could isolate this into a "<GoBackButton /> */
-            }
+            // P.S. You could isolate this logic into a "<GoBackButton />
           }}
           css={buttonCSS}
         >
@@ -151,8 +148,7 @@ function Solution() {
                   <a href={`#cat-link/${i}`} css={linkCSS}>
                     View
                     {/* 💡 Make the link unique for SRs, using sr-only. */}
-                    <span className="sr-only">{name}</span>
-                    {/* <SROnly>{name}</SROnly> */}
+                    <SROnly>{name}</SROnly>
                   </a>
                 </div>
               </li>

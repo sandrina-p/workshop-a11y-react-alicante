@@ -78,11 +78,7 @@ function ActionsMenuExercise() {
     <>
       <nav css={actionsContainerCSS}>
         <Button onClick={toggleActionsOpen}>Actions</Button>
-        <div
-          css={actionsListCSS}
-          data-open={isActionsOpen}
-          inert={isActionsOpen ? null : "true"}
-        >
+        <div css={actionsListCSS} data-open={isActionsOpen}>
           <ActionsItems />
         </div>
       </nav>
@@ -205,14 +201,16 @@ function ActionsMenuSolution() {
       <div css={actionsContainerCSS}>
         <Button
           onClick={toggleActionsOpen}
+          // 💡 aria-expanded tells the SR this will expand something else.
           aria-expanded={isActionsOpen}
+          // 💡 aria-controls allows jumping directly to the menu (only JAWS supports it)
           aria-controls="actionsWithInert"
         >
           Actions
         </Button>
         <nav
           data-open={isActionsOpen}
-          // 💡 You need to import inert polyfill at index.js
+          // 💡 The inert needs a polyfill "wicg-inert" (imported at _app.js)
           // to work properly in every modern browser.
           inert={isActionsOpen ? null : "true"}
           css={actionsListCSS}

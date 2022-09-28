@@ -88,25 +88,22 @@ function CaseInputInformationExercise() {
   return (
     <Case title="Input information" refs={refs.inputDetails}>
       <form>
-        <div>
-          <label css={fieldCSS.field}>
-            <span css={fieldCSS.label}>Your e-mail</span>
-            <input
-              id="email"
-              onBlur={handleInputBlur}
-              onChange={handleInputChange}
-              css={fieldCSS.input}
-            />
-            <p>
-              {formErrors.email && (
-                <span id="emailError" css={fieldCSS.error}>
-                  {formErrors.email}
-                </span>
-              )}{" "}
-              <span css={fieldCSS.hint}>We promise to not spam you.</span>
-            </p>
-          </label>
-        </div>
+        <label css={fieldCSS.field}>
+          <span css={fieldCSS.label}>Your e-mail</span>
+          <input
+            onBlur={handleInputBlur}
+            onChange={handleInputChange}
+            css={fieldCSS.input}
+          />
+          <p>
+            {formErrors.email && (
+              <span id="emailError" css={fieldCSS.error}>
+                {formErrors.email}
+              </span>
+            )}{" "}
+            <span css={fieldCSS.hint}>We promise to not spam you.</span>
+          </p>
+        </label>
       </form>
 
       <Stack justifyContent="flex-end">
@@ -205,9 +202,9 @@ function CaseLoadingStateSolution() {
             <Loader aria-live="assertive" aria-label="Loading..." />
           )}
 
-          {/* 💡 
-           In results with big piece of content, do not use it.
-           Use aria-live in a hidden element providing the summary "eg Total of 5 results loaded". */}
+          {/* 💡 In results with a lot of content, do not use aria-live.
+           Instead, use aria-live in a hidden element with just a summary 
+           eg "Total of 5 results loaded". */}
           {result.msg && !isLoading && (
             <div aria-live="assertive" css={feedbackInfo}>
               {result.msg}
@@ -245,42 +242,38 @@ function CaseInputInformationSolution() {
   return (
     <Case title="Input information" refs={refs.inputDetails}>
       <form>
-        <div>
-          <div>
-            <div css={fieldCSS.field}>
-              {/* // 💡 Always add a name (eg label) to an input */}
-              <label css={fieldCSS.label} htmlFor="emailSolution">
-                Your e-mail <span className="sr-only">*</span>
-              </label>
-              <input
-                // 💡 Add the necessary field state info
-                type="email" // keyboard layout
-                id="emailSolution" // label connector
-                aria-required="true" // semantic required
-                aria-invalid={formErrors.email} // validation status
-                aria-describedby="emailErrorSolution emailHintSolution" // full description
-                onBlur={handleInputBlur}
-                onChange={handleInputChange}
-                css={fieldCSS.input}
-              />
-              <p>
-                {formErrors.email && (
-                  <span
-                    id="emailErrorSolution"
-                    // 💡 We can use aria-live if it's only on blur
-                    // Me mindful to not be annoying with too many announcements
-                    aria-live="assertive"
-                    css={fieldCSS.error}
-                  >
-                    {formErrors.email}
-                  </span>
-                )}{" "}
-                <span id="emailHintSolution" css={fieldCSS.hint}>
-                  We promise to not spam you.
-                </span>
-              </p>
-            </div>
-          </div>
+        <div css={fieldCSS.field}>
+          {/* // 💡 Always add a name (eg label) to an input */}
+          <label css={fieldCSS.label} htmlFor="emailSolution">
+            Your e-mail <span aria-hidden="true">*</span>
+          </label>
+          <input
+            // 💡 Add the necessary field state info
+            type="email" // keyboard layout
+            id="emailSolution" // label connector
+            aria-required="true" // semantic required
+            aria-invalid={formErrors.email} // validation status
+            aria-describedby="emailErrorSolution emailHintSolution" // full description
+            onBlur={handleInputBlur}
+            onChange={handleInputChange}
+            css={fieldCSS.input}
+          />
+          <p>
+            {formErrors.email && (
+              <span
+                id="emailErrorSolution"
+                // 💡 We can use aria-live if it's only on blur
+                // Me mindful to not be annoying with too many announcements
+                aria-live="assertive"
+                css={fieldCSS.error}
+              >
+                {formErrors.email}
+              </span>
+            )}{" "}
+            <span id="emailHintSolution" css={fieldCSS.hint}>
+              We promise to not spam you.
+            </span>
+          </p>
         </div>
       </form>
 

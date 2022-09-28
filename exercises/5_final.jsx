@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 
+import { linkCSS } from "../components/Button";
 import {
   Case,
   IconArrowTop,
@@ -76,8 +77,8 @@ function Exercise() {
   return (
     <Case>
       <div css={Styles.header}>
-        <h1 css={Styles.plantName}>Monstera Deliciosa</h1>
         <span css={[Styles.headerTag, Styles.tagSecondary]}>On Sale</span>
+        <h1 css={Styles.plantName}>Monstera Deliciosa</h1>
 
         <button onClick={handleCartClick} css={Styles.cartBtn}>
           <IconCart />
@@ -96,9 +97,7 @@ function Exercise() {
               </p>
               <div css={Styles.price}>
                 <p css={Styles.priceOriginal}>$40.00</p>
-                <p css={Styles.priceFinal}>
-                  <span>$30.00</span>
-                </p>
+                <h2 css={Styles.priceFinal}>$30.00</h2>
               </div>
 
               <Tooltip>
@@ -120,6 +119,14 @@ function Exercise() {
                   )}
                 </TooltipBox>
               </Tooltip>
+              {isCartFull && (
+                <button
+                  onClick={() => setCartCount((c) => c - 2)}
+                  css={linkCSS}
+                >
+                  Remove 2 plants
+                </button>
+              )}
             </Stack>
 
             <div css={[Styles.media]}>

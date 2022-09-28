@@ -1,4 +1,5 @@
 import React from "react";
+import "wicg-inert";
 
 import "../styles/globals.css";
 

@@ -7,9 +7,10 @@ export function fakeWaitTime(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export async function fetchFakeLottery(time = 1500) {
+export async function fetchFakeLottery(time = 1500, defaultResultType) {
   const possibilities = ["win", "lose", "error"];
   const resultType =
+    defaultResultType ||
     possibilities[Math.floor(Math.random() * possibilities.length)];
 
   await fakeWaitTime(time);
@@ -52,6 +53,18 @@ export function shuffleDays(onUpdate) {
   return cancel;
 }
 
+export function getSingOrPlural(count, singular, plural) {
+  return count === 1 ? singular : plural;
+}
+
+export function usePrevious(value) {
+  const ref = React.useRef();
+  React.useEffect(() => {
+    ref.current = value;
+  }, [value]);
+  return ref.current;
+}
+
 // usePrefersReducedMotion from Josh W. Comeau — @joshwcomeau
 // https://www.joshwcomeau.com/snippets/react-hooks/use-prefers-reduced-motion/
 
@@ -87,8 +100,4 @@ export function usePrefersReducedMotion() {
     };
   }, []);
   return prefersReducedMotion;
-}
-
-export function getSingOrPlural(count, singular, plural) {
-  return count === 1 ? singular : plural;
 }

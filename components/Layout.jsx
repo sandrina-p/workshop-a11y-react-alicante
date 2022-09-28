@@ -4,7 +4,6 @@ import { css } from "styled-components";
 import styled, { keyframes } from "styled-components";
 import { system } from "styled-system";
 import {
-  border,
   color,
   compose,
   flexbox,

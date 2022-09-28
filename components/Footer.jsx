@@ -127,8 +127,8 @@ export function Footer() {
           </Feedback>
           <FooterCredits>
             Last update:{" "}
-            <time dateTime="2022-09-27T21:05:00Z">
-              28 September 2022 · 21:05 UTC
+            <time dateTime="2022-09-27T21:40:00Z">
+              28 September 2022 · 21:40 UTC
             </time>
           </FooterCredits>
           <p>
