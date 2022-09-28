@@ -6,7 +6,7 @@ import { SROnly } from "./Layout";
 const FooterWrapper = styled.footer`
   position: relative;
   background: var(--theme-bg_1);
-  margin-top: 11rem;
+  margin-top: 14rem;
   font-size: 1.4rem;
   line-height: 1.2;
 
@@ -127,8 +127,8 @@ export function Footer() {
           </Feedback>
           <FooterCredits>
             Last update:{" "}
-            <time dateTime="2022-09-27T21:40:00Z">
-              28 September 2022 · 21:40 UTC
+            <time dateTime="2022-09-27T21:51:00Z">
+              28 September 2022 · 21:51 UTC
             </time>
           </FooterCredits>
           <p>

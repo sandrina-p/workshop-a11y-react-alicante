@@ -15,6 +15,22 @@ import imgSlack from "../public/imgs/slack.png";
 
 /*eslint-disable @next/next/no-img-element */
 
+const HomeShell = styled(PageShell)`
+  max-width: none;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow-x: hidden;
+  --theme-width: 50rem;
+
+  main {
+    max-width: var(--theme-width);
+    width: 100%;
+    margin: auto;
+    padding: 3rem 12px 0;
+  }
+`;
+
 const Title = styled.h1`
   text-align: center;
   line-height: 1.2;
@@ -24,13 +40,13 @@ const Title = styled.h1`
 const Kicker = styled.p`
   text-align: center;
   color: var(--theme-text_1);
-  margin: 1rem 0 6rem;
+  margin: 1rem 0 5rem;
 `;
 
 export default function Home() {
   return (
     <>
-      <PageShell>
+      <HomeShell>
         <Head>
           <title>A11Y in JS @ReactAlicante</title>
           <meta
@@ -44,7 +60,7 @@ export default function Home() {
           <Title>A11Y in JS apps</Title>
           <Kicker>The web is awesome and everyone should enjoy it.</Kicker>
 
-          <Banner $tone="danger">
+          {/* <Banner $tone="danger">
             <span>
               <span className="sr-only">Work in progress</span>
               <span aria-hidden="true">🚧 🚧 🚧</span>
@@ -54,7 +70,7 @@ export default function Home() {
               minutes before the workshop starts.
               <br /> (this banner will then disappear).
             </p>
-          </Banner>
+          </Banner> */}
 
           <Stack justifyContent="center">
             <LinkExternal href="https://docs.google.com/presentation/d/1x_d9KlXnoGMsaY3QUSFtLphMpwwteSbyuETvITGgF4s/edit?usp=sharing">
@@ -83,8 +99,8 @@ export default function Home() {
             A final challenge wrapping all learnings together.
           </CardLink>
         </main>
-      </PageShell>
-      <Footer />
+        <Footer />
+      </HomeShell>
     </>
   );
 }
