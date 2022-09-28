@@ -59,6 +59,7 @@ The ones below we'll use frequently:
 
 At some point, we'll might also use the following:
 
+- [Web Developer](https://chrispederick.com/work/web-developer/)
 - [Colour contrast checker](https://colourcontrast.cc/) - Chrome only
 - [HeadingsMap](https://rumoroso.bitbucket.io/) - Chrome or Firefox
 

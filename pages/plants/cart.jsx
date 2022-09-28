@@ -6,8 +6,6 @@ import { PageShell } from "../../components/Layout";
 
 export default function Profile() {
   const router = useRouter();
-  const category = router.query?.category;
-  console.log(router);
   function handleGoBack() {
     const hasPrevPage = window.history.length > 1;
     /*
@@ -25,13 +23,11 @@ export default function Profile() {
   return (
     <PageShell>
       <Head>
-        <title>Plants</title>
+        <title>Plants Cart</title>
       </Head>
 
       <main>
-        <h1>Plants</h1>
-
-        {category && <h2>{category}</h2>}
+        <h1>Plants Cart</h1>
 
         <br />
 

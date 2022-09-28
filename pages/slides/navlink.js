@@ -25,9 +25,18 @@ const Container = styled.div`
     background: var(--theme-bg_1);
     border-radius: 10px;
     box-shadow: 2px 2px var(--theme-primary_smooth);
-    list-style: none;
     margin: 0;
     height: 145px;
+
+    ${({ $hasStyles }) =>
+      $hasStyles &&
+      css`
+        list-style: none;
+      `}
+
+    li {
+      color: var(--theme-text_0);
+    }
   }
 
   a {

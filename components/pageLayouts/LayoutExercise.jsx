@@ -1,17 +1,44 @@
 import Head from "next/head";
 import Link from "next/link";
 import React from "react";
+import styled, { css } from "styled-components";
 
-import { buttonCSS } from "../Button";
+import { linkCSS } from "../Button";
 import { PageShell, Stack } from "../Layout";
+
+const BtnToggle = styled.button`
+  all: unset;
+  border: 1px solid #aaa;
+  padding: 4px 8px;
+  border-radius: 6px;
+
+  &:hover {
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: var(--theme-focus_shadow);
+  }
+
+  ${({ $dark }) =>
+    $dark &&
+    css`
+      background-color: var(--theme-text_0);
+      color: var(--theme-text_invert);
+    `}
+`;
 
 function SolutionToggler() {
   const { variant, toggleVariant } = useContextExercise();
 
   return (
-    <button onClick={toggleVariant}>
+    <BtnToggle onClick={toggleVariant} $dark={variant === "solution"}>
       {variant === "exercise" ? "Show solution" : "Show exercise"}
-    </button>
+    </BtnToggle>
   );
 }
 
@@ -32,13 +59,19 @@ export function LayoutExercise({ children, title }) {
           <title>Exercise: {title}</title>
         </Head>
 
-        <header>
-          <Link href="/" css={buttonCSS}>
-            Back home
+        <Stack
+          as="header"
+          justifyContent="space-between"
+          alignItems="center"
+          mb="12px"
+        >
+          <Link href="/" passHref>
+            <a css={linkCSS}>Back home</a>
           </Link>
 
           <SolutionToggler />
-        </header>
+        </Stack>
+
         <Stack as="main" my="36px" direction="column" gap="100px">
           {children}
         </Stack>

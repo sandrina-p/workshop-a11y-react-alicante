@@ -87,6 +87,13 @@ const ModalShitty = styled.div`
   &[hidden] {
     display: none;
   }
+
+  input {
+    width: 100px;
+    margin-left: 6px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
 `;
 
 export default function Page() {
@@ -110,7 +117,8 @@ export default function Page() {
         <Button onClick={() => setIsOpen(true)}>Open dialog</Button>
 
         <ModalShitty hidden={!isOpen}>
-          <p>Hello everyone!</p>
+          <p>Code</p>
+          <input placeholder="1234"></input>
           <br />
           <button onClick={() => setIsOpen(false)}>Close</button>
         </ModalShitty>

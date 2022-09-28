@@ -1,5 +1,5 @@
 import { LayoutExercise } from "../../components/pageLayouts/LayoutExercise.jsx";
-import Page from "../../exercises/1.jsx";
+import Page from "../../exercises/1_routing.jsx";
 
 export default Page;
 

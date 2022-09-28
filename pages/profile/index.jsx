@@ -25,19 +25,15 @@ export default function Profile() {
 
       <main>
         <h1>Profile Page</h1>
-
-        {/*
-        🐛 React Router and Next do not support go back using <Link />
-          https://stackoverflow.com/questions/72676015/react-router-go-back-using-link
-        */}
-        <button onClick={handleGoBack} css={linkCSS}>
-          Go Back
-        </button>
-
         <br />
         <br />
-
-        <p>This would be your profile page...</p>
+        <p>
+          This is just a placeholder page. Please,{" "}
+          <button onClick={handleGoBack} css={linkCSS}>
+            go back
+          </button>{" "}
+          :)
+        </p>
       </main>
     </PageShell>
   );

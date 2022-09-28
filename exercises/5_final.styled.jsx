@@ -1,6 +1,10 @@
 import { css } from "styled-components";
 
+/* 💡 You can ignore all this CSS, 
+it's out-of-scope for this exercise. */
+
 export const header = css`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -11,32 +15,31 @@ export const headerTag = css`
   margin: 0;
 `;
 
-export const breadcrumbs = css`
-  list-style: none;
-  margin: 0;
-  padding: 0;
+export const cartBtn = css`
+  all: unset;
+  position: absolute;
+  top: 0;
+  right: 0;
   display: flex;
-  gap: 6px;
-  color: var(--theme-text_1);
-  font-size: 1.3rem;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #aaa;
+  padding: 2px 4px;
+  border-radius: 4px;
+  cursor: pointer;
 
-  li:not(:last-child) {
-    &::after {
-      margin-left: 6px;
-      content: ">";
-      font-weight: 600;
-    }
+  svg {
+    width: 24px;
+    fill: currentColor;
   }
 
-  a {
-    color: inherit;
-    text-decoration-color: currentcolor;
+  &:hover {
+    color: var(--theme-primary);
   }
-`;
 
-export const breadcrumbsCurrent = css`
-  color: var(--theme-text_0);
-  font-weight: 500;
+  &:focus {
+    box-shadow: var(--theme-focus_shadow);
+  }
 `;
 
 export const plantName = css`
@@ -46,38 +49,11 @@ export const plantName = css`
   font-size: 3.2rem;
   line-height: 1.2;
   margin-bottom: 16px;
+
+  &:focus {
+    outline: none;
+  }
 `;
-
-// .titleMD {
-//   font-size: 1.8rem;
-//   font-weight: 600;
-//   margin: 0 0 16px;
-//   line-height: 1.2;
-// }
-
-// .textSM {
-//   font-size: 1.4rem;
-// }
-
-// /* ------- Header -------  */
-
-// .companyLinks {
-//   display: flex;
-//   justify-content: center;
-//   padding: 32px 0 16px;
-//   margin: 0 0 -90px;
-// }
-
-// .companyLinks {
-//   list-style: none;
-//   padding-right: 0;
-// }
-
-// .companyLinks a {
-//   margin: 0 8px;
-// }
-
-// /* ------- Main -------  */
 
 export const tagSecondary = css`
   padding: 2px 4px;
@@ -89,7 +65,7 @@ export const tagSecondary = css`
   line-height: 1;
 `;
 
-// /* ------- Info -------  */
+/* ------- Info -------  */
 
 export const info = css`
   display: flex;
@@ -135,33 +111,23 @@ export const mediaImg = css`
   max-width: 100%;
 `;
 
-// /* ------- Details & CTA -------  */
+/* ------- Details & CTA -------  */
 
 export const details = css`
   display: flex;
   flex-direction: column;
   padding-top: 16px;
-  margin-top: 16px;
-  border-top: 1px solid var(--theme-primary);
-
-  &:nth-child(2) {
-    min-height: 40rem;
-  }
-
-  &:nth-child(3) {
-    min-height: 20rem;
-  }
-
-  &:nth-child(4) {
-    min-height: 30rem;
-  }
+  margin-top: 5rem;
+  min-height: 30rem;
 `;
 
 export const placeholder = css`
   background: #eee;
   height: 100%;
   border-radius: 4px;
-  flex: 1;
+  height: 20rem;
+  flex-grow: 1;
+  padding: 8px;
 `;
 
 export const price = css`
@@ -200,15 +166,88 @@ export const btnCta = css`
   color: #fff;
   overflow: hidden;
 
-  &:hover {
+  &:hover:not([aria-disabled="true"], [disabled]) {
     filter: brightness(1.3);
   }
 
-  &:focus {
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  &:focus-visible {
     box-shadow: var(--theme-focus_shadow);
     outline: var(--theme-focus_outline);
   }
+
+  &[aria-disabled="true"],
+  &[disabled] {
+    background: #ccc;
+    cursor: not-allowed;
+  }
 `;
+
+/* ------- Tabs -------  */
+
+export const tabs = css`
+  [data-css-tab-list],
+  [data-reach-tab-list] {
+    border-bottom: 1px solid var(--theme-primary);
+    border-bottom: 1px solid #aaa;
+
+    display: flex;
+    gap: 12px;
+
+    &:focus-within {
+      border-bottom: 1px solid var(--theme-secondary);
+    }
+  }
+
+  [data-css-tab-btn],
+  [data-reach-tab] {
+    all: unset;
+    padding: 6px 2px;
+    border-bottom: 3px solid transparent;
+    font-weight: 500;
+
+    &:hover,
+    &:focus {
+      border-bottom-color: var(--theme-text_0);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--theme-secondary);
+    }
+
+    &[aria-current="true"],
+    &[data-selected] {
+      border-bottom-color: var(--theme-primary);
+    }
+  }
+
+  [data-css-tab-panels],
+  [data-reach-tab-panels] {
+    padding: 10px 0;
+  }
+
+  [data-css-tab-panels] {
+    position: relative;
+    height: 25rem; /* forced height. */
+  }
+
+  [data-css-tab-panel] {
+    position: absolute;
+    width: 100%;
+    top: 10px;
+    opacity: 0;
+    transition: opacity 100ms;
+
+    &[aria-current="true"] {
+      opacity: 1;
+    }
+  }
+`;
+
+/* ------- Back to top -------  */
 
 export const btnTop = css`
   position: relative;
@@ -244,6 +283,46 @@ export const btnTop = css`
   }
 `;
 
+/* ------- Breadcrumbs -------  */
+
+export const breadcrumbs = css`
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 6px;
+  color: #aaa;
+  font-size: 1.3rem;
+
+  li:not(:last-child) {
+    &::after {
+      margin-left: 6px;
+      content: ">" / "";
+      font-weight: 600;
+    }
+  }
+
+  a {
+    color: inherit;
+    text-decoration-color: currentcolor;
+
+    &:focus:not(:focus-visible) {
+      outline: none;
+    }
+
+    &:focus-visible {
+      box-shadow: var(--theme-focus_shadow);
+      outline: var(--theme-focus_outline);
+    }
+  }
+`;
+
+export const breadcrumbsCurrent = css`
+  font-weight: 500;
+`;
+
+/* ------- Others -------  */
+
 /* Screen Reader Only
   https://kittygiraudel.com/2021/02/17/hiding-content-responsibly/
 */
@@ -257,3 +336,13 @@ export const srOnly = css`
   clip: rect(0, 0, 0, 0);
   border: 0;
 `;
+
+//  const animPressed = keyframes`
+//   0%,
+//   100% {
+//     transform: scale(1);
+//   }
+//   30% {
+//     transform: scale(0.9);
+//   }
+// `;

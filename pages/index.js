@@ -79,9 +79,9 @@ export default function Home() {
           <CardLink title="Animations" href="exercises/4">
             Making animations more accessible.
           </CardLink>
-          {/* <CardLink title="All together now" href="exercises/final">
+          <CardLink title="All together now" href="exercises/5">
             A final challenge wrapping all learnings together.
-          </CardLink> */}
+          </CardLink>
         </main>
       </PageShell>
       <Footer />

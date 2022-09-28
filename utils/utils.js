@@ -3,6 +3,7 @@ import React from "react";
 export const mailPattern = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
 export function fakeWaitTime(ms) {
+  // eslint-disable-next-line no-undef
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
@@ -86,4 +87,8 @@ export function usePrefersReducedMotion() {
     };
   }, []);
   return prefersReducedMotion;
+}
+
+export function getSingOrPlural(count, singular, plural) {
+  return count === 1 ? singular : plural;
 }
