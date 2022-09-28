@@ -28,6 +28,7 @@ const Playground = styled.div`
 
   details {
     display: inline-block;
+    width: 240px;
     color: var(--theme-bg_0);
     transition: color 250ms;
 
@@ -64,8 +65,8 @@ export default function Page() {
       `}</style>
       <Playground>
         <details>
-          <summary>What's the weather today?</summary>
-          It's a sunny and hot day!
+          <summary>Do we always need JS?</summary>
+          No. Many times HTML and CSS are enough!
         </details>
       </Playground>
     </Container>
