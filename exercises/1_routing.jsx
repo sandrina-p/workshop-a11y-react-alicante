@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { css } from "styled-components";
 
 import { buttonCSS, linkCSS } from "../components/Button";
-import { Case, SROnly, Stack } from "../components/Layout";
+import { Case, Stack } from "../components/Layout";
 import { useContextExercise } from "../components/pageLayouts/LayoutExercise";
 import imgCatRest from "../public/imgs/cat_rest.jpg";
 import imgCatSearching from "../public/imgs/cat_searching.jpg";
@@ -15,7 +15,7 @@ function Exercise() {
 
   return (
     <>
-      <Case title="What's a link?">
+      <Case title="What's a link?" refs={refs.btnVsLink}>
         <Stack gap="24px">
           <div onClick={() => router.push(`/profile`)} css={buttonCSS}>
             My profile A
@@ -27,7 +27,7 @@ function Exercise() {
         </Stack>
       </Case>
 
-      <Case title="Go back button">
+      <Case title="Go back button" refs={refs.btnAreLinks}>
         <button
           onClick={() => {
             // same as history.back() for react-router
@@ -101,7 +101,7 @@ function Solution() {
   return (
     <>
       {/* 💡 Nothing changes here */}
-      <Case title="What's a link?">
+      <Case title="What's a link?" refs={refs.btnVsLink}>
         <Stack gap="24px">
           {/* 💡 Whenever you deal with routes directly, use a Link instead of div/button */}
           <div onClick={() => router.push(`/profile`)} css={buttonCSS}>
@@ -114,9 +114,11 @@ function Solution() {
         </Stack>
       </Case>
 
-      <Case title="Go back button">
+      <Case title="Go back button" refs={refs.btnAreLinks}>
         <button
           onClick={() => {
+            // Routing with a <Link /> is not possible:
+            // https://stackoverflow.com/questions/72676015/react-router-go-back-using-link
             // 💡 Verify if previous page exists before using router.back
             const hasPreviousPage = window.history.length > 1;
 
@@ -174,20 +176,28 @@ export default function Page() {
   return variant === "exercise" ? <Exercise /> : <Solution />;
 }
 
-var refs = [
-  {
-    name: "Buttons vs Links",
-    url: "https://css-tricks.com/a-complete-guide-to-links-and-buttons/",
-  },
-  {
-    name: "Good focus indicators",
-    url: "https://www.sarasoueidan.com/blog/focus-indicators/",
-  },
-  {
-    name: "Accessible routing",
-    url: "https://www.gatsbyjs.com/blog/2019-07-11-user-testing-accessible-client-routing/",
-  },
-];
+var refs = {
+  btnVsLink: [
+    {
+      name: "Buttons vs Links",
+      url: "https://css-tricks.com/a-complete-guide-to-links-and-buttons/",
+    },
+    {
+      name: "Accessible client routing",
+      url: "https://www.gatsbyjs.com/blog/2019-07-11-user-testing-accessible-client-routing/",
+    },
+  ],
+  btnAreLinks: [
+    {
+      name: "Go back as Link",
+      url: "https://stackoverflow.com/questions/72676015/react-router-go-back-using-link",
+    },
+    {
+      name: "Creating good focus indicators",
+      url: "https://www.sarasoueidan.com/blog/focus-indicators/",
+    },
+  ],
+};
 
 const dataCats = [
   {
